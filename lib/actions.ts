@@ -4,7 +4,16 @@ import prisma from "./db";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
-export async function updateUser(formData: FormData) {
+export type State = {
+  errors?: {
+    role?: string[];
+    email?: string[];
+    name?: string[];
+  };
+  message?: string | null;
+};
+
+export async function updateUser(prevState: State, formData: FormData) {
   const id = formData.get("id") as string;
 
   const NewSchema = UserSchema.omit({
@@ -21,10 +30,26 @@ export async function updateUser(formData: FormData) {
     name: formData.get("name"),
   });
 
-  if (validatedFields.error) {
+  if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create Invoice.",
+    };
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      email: validatedFields.data?.email,
+    },
+  });
+
+  if (user) {
+    return {
+      errors: {
+        role: [],
+        name: [],
+        email: ["El correo ya existe en la base de datos."],
+      },
     };
   }
 
@@ -32,7 +57,6 @@ export async function updateUser(formData: FormData) {
     await prisma.user.update({
       where: {
         id: id,
-        email: validatedFields.data.email,
       },
       data: {
         name: validatedFields.data.name,
@@ -47,7 +71,7 @@ export async function updateUser(formData: FormData) {
   redirect("/usuarios");
 }
 
-export async function createUser(formData: FormData) {
+export async function createUser(State: State, formData: FormData) {
   const NewSchema = UserSchema.omit({
     id: true,
     createAt: true,
@@ -62,7 +86,22 @@ export async function createUser(formData: FormData) {
     name: formData.get("name"),
   });
 
-  if (validatedFields.error) {
+  const user = await prisma.user.findFirst({
+    where: {
+      email: validatedFields.data?.email,
+    },
+  });
+
+  if (user) {
+    return {
+      errors: {
+        role: [],
+        name: [],
+        email: ["El correo ya existe en la base de datos."],
+      },
+    };
+  }
+  if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create Invoice.",

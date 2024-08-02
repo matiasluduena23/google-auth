@@ -12,8 +12,8 @@ datasource db {
 }
 
 model User {
-  id       String   @default(uuid())
-  email    String   @unique
+  id       String   @unique @default(uuid())
+  email    String   
   name     String?
   role     Role     @default(USER)
   image    String?

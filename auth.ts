@@ -11,7 +11,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!profile?.email) {
         throw new Error("No profile");
       }
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findFirst({
         where: {
           email: profile.email,
         },
@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         await prisma.user.update({
           where: {
-            email: profile.email,
+            id: user.id,
           },
           data: {
             image: profile.picture,
