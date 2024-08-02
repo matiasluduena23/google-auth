@@ -9,6 +9,7 @@ async function seed() {
     update: {},
     create: {
       email: "matiaslredes@gmail.com",
+      name: "Matias Luduena Dev",
       role: "ADMIN",
     },
   });

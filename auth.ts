@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import google from "next-auth/providers/google";
+import prisma from "./lib/db";
+import email from "next-auth/providers/email";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [google],
@@ -9,8 +11,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!profile?.email) {
         throw new Error("No profile");
       }
-      const isAllowedToSignIn = false;
-      if (isAllowedToSignIn) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: profile.email,
+        },
+      });
+      if (user) {
+        await prisma.user.update({
+          where: {
+            email: profile.email,
+          },
+          data: {
+            image: profile.picture,
+          },
+        });
         return true;
       } else {
         // Return false to display a default error message
@@ -18,6 +32,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Or you can return a URL to redirect to:
         // return '/unauthorized'
       }
+    },
+    async redirect({}) {
+      return "/panel";
     },
   },
 });

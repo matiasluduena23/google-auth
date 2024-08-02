@@ -1,11 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator zod {
+  provider = "zod-prisma-types"
 }
 
 datasource db {
@@ -13,13 +11,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id      String @default(uuid())
-  email   String   @unique
-  name    String?
-  role    Role     @default(USER)
-  image   String?
+  id       String   @default(uuid())
+  email    String   @unique
+  name     String?
+  role     Role     @default(USER)
+  image    String?
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   visitas  Int?

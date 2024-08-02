@@ -8,11 +8,8 @@ export default async function page() {
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center min-h-screen">
-      {session && <p>{session.user?.name}</p>}
-
       <h1>Iniciar Sesion</h1>
       <SignIn />
-      <SignOut />
     </div>
   );
 }
