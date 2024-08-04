@@ -1,7 +1,9 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
+
 import Link from "next/link";
 import React from "react";
+import { SignOut } from "../components/SignOut";
 
 export default async function page() {
   const session = await auth();
@@ -31,6 +33,8 @@ export default async function page() {
             Usuarios
           </Link>
         )}
+
+        <SignOut />
       </div>
     </div>
   );
