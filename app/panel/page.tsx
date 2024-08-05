@@ -4,16 +4,15 @@ import prisma from "@/lib/db";
 import Link from "next/link";
 import React from "react";
 import { SignOut } from "../components/SignOut";
+import { redirect } from "next/navigation";
 
 export default async function page() {
   const session = await auth();
-  if (!session) return null;
-  if (!session.user) return;
-  if (!session.user?.email) return;
+  if (!session) redirect("/error-user");
 
   const user = await prisma.user.findFirst({
     where: {
-      email: session.user.email,
+      email: session.user?.email!,
     },
   });
 

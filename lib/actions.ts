@@ -122,3 +122,20 @@ export async function createUser(State: State, formData: FormData) {
   revalidatePath("/usuarios");
   redirect("/usuarios");
 }
+
+export async function eliminarUser(formData: FormData) {
+  const id = formData.get("id") as string;
+
+  try {
+    if (id) {
+      await prisma.user.delete({
+        where: {
+          id: id,
+        },
+      });
+    }
+  } catch (error) {
+    console.log("Error deleting user", error);
+  }
+  revalidatePath("/usuarios");
+}

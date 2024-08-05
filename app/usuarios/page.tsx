@@ -7,18 +7,17 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export default async function page() {
+  // Authorization
   const session = await auth();
-  const id = session?.user?.email;
-  if (id) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: id,
-      },
-    });
-    if (user?.role !== "ADMIN") redirect("/panel");
-  } else {
-    redirect("/panel");
-  }
+
+  const email = session?.user?.email!;
+  const user = await prisma.user.findFirst({
+    where: {
+      email: email,
+    },
+  });
+
+  if (user?.role !== "ADMIN") redirect("/panel");
 
   const usuarios = await prisma.user.findMany();
   return (

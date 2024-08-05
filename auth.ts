@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import google from "next-auth/providers/google";
 import prisma from "./lib/db";
+import { redirect } from "next/navigation";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [google],
@@ -15,6 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: profile.email,
         },
       });
+      console.log("user google", user);
       if (user) {
         await prisma.user.update({
           where: {
@@ -26,8 +28,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         return true;
       } else {
+        console.log("llega");
         // Return false to display a default error message
-        return "/error-user";
+        redirect("/error-user");
         // Or you can return a URL to redirect to:
         // return '/unauthorized'
       }

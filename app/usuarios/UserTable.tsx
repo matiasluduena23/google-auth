@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import type { User } from "@prisma/client";
 import Link from "next/link";
+import EliminarUsuario from "./EliminarUsuario";
 
 export function UserTable({ usuarios }: { usuarios: User[] }) {
   return (
@@ -41,9 +42,7 @@ export function UserTable({ usuarios }: { usuarios: User[] }) {
               </Button>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant={"destructive"}>
-                <Link href={`/panel/${usuario.id}/actualizar`}>Eliminar</Link>
-              </Button>
+              <EliminarUsuario id={usuario.id} />
             </TableCell>
           </TableRow>
         ))}
