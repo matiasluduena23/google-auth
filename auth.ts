@@ -16,7 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: profile.email,
         },
       });
-      console.log("user google", user);
+
       if (user) {
         await prisma.user.update({
           where: {
@@ -26,17 +26,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             image: profile.picture,
           },
         });
+
         return true;
       } else {
-        console.log("llega");
         // Return false to display a default error message
-        redirect("/error-user");
+        return "/error-user";
+
         // Or you can return a URL to redirect to:
         // return '/unauthorized'
       }
-    },
-    async redirect({}) {
-      return "/panel";
     },
   },
 });
