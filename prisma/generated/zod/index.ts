@@ -14,6 +14,8 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const UserScalarFieldEnumSchema = z.enum(['id','email','name','role','image','createAt','updateAt','visitas']);
 
+export const PropiedadScalarFieldEnumSchema = z.enum(['id','idAirTable','direccion','fechaDeCarga','barrio','ciudad','cpc','zona','calle','altura','tipo','superficie','piso','dormitorios','categoria','latitud','longitud','precioUS']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -46,6 +48,33 @@ export const UserSchema = z.object({
 export type User = z.infer<typeof UserSchema>
 
 /////////////////////////////////////////
+// PROPIEDAD SCHEMA
+/////////////////////////////////////////
+
+export const PropiedadSchema = z.object({
+  id: z.string().uuid(),
+  idAirTable: z.string(),
+  direccion: z.string(),
+  fechaDeCarga: z.coerce.date(),
+  barrio: z.string(),
+  ciudad: z.string(),
+  cpc: z.string().nullable(),
+  zona: z.string().nullable(),
+  calle: z.string().nullable(),
+  altura: z.number().int(),
+  tipo: z.string().nullable(),
+  superficie: z.number(),
+  piso: z.string().nullable(),
+  dormitorios: z.string().nullable(),
+  categoria: z.string().nullable(),
+  latitud: z.number(),
+  longitud: z.number(),
+  precioUS: z.number().int(),
+})
+
+export type Propiedad = z.infer<typeof PropiedadSchema>
+
+/////////////////////////////////////////
 // SELECT & INCLUDE
 /////////////////////////////////////////
 
@@ -61,6 +90,30 @@ export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
   createAt: z.boolean().optional(),
   updateAt: z.boolean().optional(),
   visitas: z.boolean().optional(),
+}).strict()
+
+// PROPIEDAD
+//------------------------------------------------------
+
+export const PropiedadSelectSchema: z.ZodType<Prisma.PropiedadSelect> = z.object({
+  id: z.boolean().optional(),
+  idAirTable: z.boolean().optional(),
+  direccion: z.boolean().optional(),
+  fechaDeCarga: z.boolean().optional(),
+  barrio: z.boolean().optional(),
+  ciudad: z.boolean().optional(),
+  cpc: z.boolean().optional(),
+  zona: z.boolean().optional(),
+  calle: z.boolean().optional(),
+  altura: z.boolean().optional(),
+  tipo: z.boolean().optional(),
+  superficie: z.boolean().optional(),
+  piso: z.boolean().optional(),
+  dormitorios: z.boolean().optional(),
+  categoria: z.boolean().optional(),
+  latitud: z.boolean().optional(),
+  longitud: z.boolean().optional(),
+  precioUS: z.boolean().optional(),
 }).strict()
 
 
@@ -140,6 +193,128 @@ export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScal
   visitas: z.union([ z.lazy(() => IntNullableWithAggregatesFilterSchema),z.number() ]).optional().nullable(),
 }).strict();
 
+export const PropiedadWhereInputSchema: z.ZodType<Prisma.PropiedadWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => PropiedadWhereInputSchema),z.lazy(() => PropiedadWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => PropiedadWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => PropiedadWhereInputSchema),z.lazy(() => PropiedadWhereInputSchema).array() ]).optional(),
+  id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  idAirTable: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  direccion: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  fechaDeCarga: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  barrio: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  ciudad: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  cpc: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  zona: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  calle: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  altura: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
+  tipo: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  superficie: z.union([ z.lazy(() => FloatFilterSchema),z.number() ]).optional(),
+  piso: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  dormitorios: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  categoria: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  latitud: z.union([ z.lazy(() => FloatFilterSchema),z.number() ]).optional(),
+  longitud: z.union([ z.lazy(() => FloatFilterSchema),z.number() ]).optional(),
+  precioUS: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
+}).strict();
+
+export const PropiedadOrderByWithRelationInputSchema: z.ZodType<Prisma.PropiedadOrderByWithRelationInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  idAirTable: z.lazy(() => SortOrderSchema).optional(),
+  direccion: z.lazy(() => SortOrderSchema).optional(),
+  fechaDeCarga: z.lazy(() => SortOrderSchema).optional(),
+  barrio: z.lazy(() => SortOrderSchema).optional(),
+  ciudad: z.lazy(() => SortOrderSchema).optional(),
+  cpc: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  zona: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  calle: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  tipo: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  piso: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  dormitorios: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  categoria: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const PropiedadWhereUniqueInputSchema: z.ZodType<Prisma.PropiedadWhereUniqueInput> = z.object({
+  id: z.string().uuid()
+})
+.and(z.object({
+  id: z.string().uuid().optional(),
+  AND: z.union([ z.lazy(() => PropiedadWhereInputSchema),z.lazy(() => PropiedadWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => PropiedadWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => PropiedadWhereInputSchema),z.lazy(() => PropiedadWhereInputSchema).array() ]).optional(),
+  idAirTable: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  direccion: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  fechaDeCarga: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  barrio: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  ciudad: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  cpc: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  zona: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  calle: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  altura: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
+  tipo: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  superficie: z.union([ z.lazy(() => FloatFilterSchema),z.number() ]).optional(),
+  piso: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  dormitorios: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  categoria: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  latitud: z.union([ z.lazy(() => FloatFilterSchema),z.number() ]).optional(),
+  longitud: z.union([ z.lazy(() => FloatFilterSchema),z.number() ]).optional(),
+  precioUS: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
+}).strict());
+
+export const PropiedadOrderByWithAggregationInputSchema: z.ZodType<Prisma.PropiedadOrderByWithAggregationInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  idAirTable: z.lazy(() => SortOrderSchema).optional(),
+  direccion: z.lazy(() => SortOrderSchema).optional(),
+  fechaDeCarga: z.lazy(() => SortOrderSchema).optional(),
+  barrio: z.lazy(() => SortOrderSchema).optional(),
+  ciudad: z.lazy(() => SortOrderSchema).optional(),
+  cpc: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  zona: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  calle: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  tipo: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  piso: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  dormitorios: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  categoria: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => PropiedadCountOrderByAggregateInputSchema).optional(),
+  _avg: z.lazy(() => PropiedadAvgOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => PropiedadMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => PropiedadMinOrderByAggregateInputSchema).optional(),
+  _sum: z.lazy(() => PropiedadSumOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const PropiedadScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.PropiedadScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => PropiedadScalarWhereWithAggregatesInputSchema),z.lazy(() => PropiedadScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => PropiedadScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => PropiedadScalarWhereWithAggregatesInputSchema),z.lazy(() => PropiedadScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  idAirTable: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  direccion: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  fechaDeCarga: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  barrio: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  ciudad: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  cpc: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  zona: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  calle: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  altura: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
+  tipo: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  superficie: z.union([ z.lazy(() => FloatWithAggregatesFilterSchema),z.number() ]).optional(),
+  piso: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  dormitorios: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  categoria: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  latitud: z.union([ z.lazy(() => FloatWithAggregatesFilterSchema),z.number() ]).optional(),
+  longitud: z.union([ z.lazy(() => FloatWithAggregatesFilterSchema),z.number() ]).optional(),
+  precioUS: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
+}).strict();
+
 export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object({
   id: z.string().uuid().optional(),
   email: z.string(),
@@ -215,6 +390,153 @@ export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedU
   createAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updateAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   visitas: z.union([ z.number().int(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const PropiedadCreateInputSchema: z.ZodType<Prisma.PropiedadCreateInput> = z.object({
+  id: z.string().uuid().optional(),
+  idAirTable: z.string(),
+  direccion: z.string(),
+  fechaDeCarga: z.coerce.date(),
+  barrio: z.string(),
+  ciudad: z.string(),
+  cpc: z.string().optional().nullable(),
+  zona: z.string().optional().nullable(),
+  calle: z.string().optional().nullable(),
+  altura: z.number().int(),
+  tipo: z.string().optional().nullable(),
+  superficie: z.number(),
+  piso: z.string().optional().nullable(),
+  dormitorios: z.string().optional().nullable(),
+  categoria: z.string().optional().nullable(),
+  latitud: z.number(),
+  longitud: z.number(),
+  precioUS: z.number().int()
+}).strict();
+
+export const PropiedadUncheckedCreateInputSchema: z.ZodType<Prisma.PropiedadUncheckedCreateInput> = z.object({
+  id: z.string().uuid().optional(),
+  idAirTable: z.string(),
+  direccion: z.string(),
+  fechaDeCarga: z.coerce.date(),
+  barrio: z.string(),
+  ciudad: z.string(),
+  cpc: z.string().optional().nullable(),
+  zona: z.string().optional().nullable(),
+  calle: z.string().optional().nullable(),
+  altura: z.number().int(),
+  tipo: z.string().optional().nullable(),
+  superficie: z.number(),
+  piso: z.string().optional().nullable(),
+  dormitorios: z.string().optional().nullable(),
+  categoria: z.string().optional().nullable(),
+  latitud: z.number(),
+  longitud: z.number(),
+  precioUS: z.number().int()
+}).strict();
+
+export const PropiedadUpdateInputSchema: z.ZodType<Prisma.PropiedadUpdateInput> = z.object({
+  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  idAirTable: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  direccion: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  fechaDeCarga: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  barrio: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  ciudad: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  cpc: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  zona: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  calle: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  altura: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tipo: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  superficie: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  piso: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dormitorios: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  categoria: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  latitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  longitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  precioUS: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const PropiedadUncheckedUpdateInputSchema: z.ZodType<Prisma.PropiedadUncheckedUpdateInput> = z.object({
+  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  idAirTable: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  direccion: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  fechaDeCarga: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  barrio: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  ciudad: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  cpc: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  zona: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  calle: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  altura: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tipo: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  superficie: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  piso: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dormitorios: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  categoria: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  latitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  longitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  precioUS: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const PropiedadCreateManyInputSchema: z.ZodType<Prisma.PropiedadCreateManyInput> = z.object({
+  id: z.string().uuid().optional(),
+  idAirTable: z.string(),
+  direccion: z.string(),
+  fechaDeCarga: z.coerce.date(),
+  barrio: z.string(),
+  ciudad: z.string(),
+  cpc: z.string().optional().nullable(),
+  zona: z.string().optional().nullable(),
+  calle: z.string().optional().nullable(),
+  altura: z.number().int(),
+  tipo: z.string().optional().nullable(),
+  superficie: z.number(),
+  piso: z.string().optional().nullable(),
+  dormitorios: z.string().optional().nullable(),
+  categoria: z.string().optional().nullable(),
+  latitud: z.number(),
+  longitud: z.number(),
+  precioUS: z.number().int()
+}).strict();
+
+export const PropiedadUpdateManyMutationInputSchema: z.ZodType<Prisma.PropiedadUpdateManyMutationInput> = z.object({
+  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  idAirTable: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  direccion: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  fechaDeCarga: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  barrio: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  ciudad: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  cpc: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  zona: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  calle: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  altura: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tipo: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  superficie: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  piso: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dormitorios: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  categoria: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  latitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  longitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  precioUS: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+}).strict();
+
+export const PropiedadUncheckedUpdateManyInputSchema: z.ZodType<Prisma.PropiedadUncheckedUpdateManyInput> = z.object({
+  id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  idAirTable: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  direccion: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  fechaDeCarga: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  barrio: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  ciudad: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  cpc: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  zona: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  calle: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  altura: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  tipo: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  superficie: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  piso: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dormitorios: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  categoria: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  latitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  longitud: z.union([ z.number(),z.lazy(() => FloatFieldUpdateOperationsInputSchema) ]).optional(),
+  precioUS: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const StringFilterSchema: z.ZodType<Prisma.StringFilter> = z.object({
@@ -398,6 +720,139 @@ export const IntNullableWithAggregatesFilterSchema: z.ZodType<Prisma.IntNullable
   _max: z.lazy(() => NestedIntNullableFilterSchema).optional()
 }).strict();
 
+export const IntFilterSchema: z.ZodType<Prisma.IntFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntFilterSchema) ]).optional(),
+}).strict();
+
+export const FloatFilterSchema: z.ZodType<Prisma.FloatFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedFloatFilterSchema) ]).optional(),
+}).strict();
+
+export const PropiedadCountOrderByAggregateInputSchema: z.ZodType<Prisma.PropiedadCountOrderByAggregateInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  idAirTable: z.lazy(() => SortOrderSchema).optional(),
+  direccion: z.lazy(() => SortOrderSchema).optional(),
+  fechaDeCarga: z.lazy(() => SortOrderSchema).optional(),
+  barrio: z.lazy(() => SortOrderSchema).optional(),
+  ciudad: z.lazy(() => SortOrderSchema).optional(),
+  cpc: z.lazy(() => SortOrderSchema).optional(),
+  zona: z.lazy(() => SortOrderSchema).optional(),
+  calle: z.lazy(() => SortOrderSchema).optional(),
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  tipo: z.lazy(() => SortOrderSchema).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  piso: z.lazy(() => SortOrderSchema).optional(),
+  dormitorios: z.lazy(() => SortOrderSchema).optional(),
+  categoria: z.lazy(() => SortOrderSchema).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const PropiedadAvgOrderByAggregateInputSchema: z.ZodType<Prisma.PropiedadAvgOrderByAggregateInput> = z.object({
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const PropiedadMaxOrderByAggregateInputSchema: z.ZodType<Prisma.PropiedadMaxOrderByAggregateInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  idAirTable: z.lazy(() => SortOrderSchema).optional(),
+  direccion: z.lazy(() => SortOrderSchema).optional(),
+  fechaDeCarga: z.lazy(() => SortOrderSchema).optional(),
+  barrio: z.lazy(() => SortOrderSchema).optional(),
+  ciudad: z.lazy(() => SortOrderSchema).optional(),
+  cpc: z.lazy(() => SortOrderSchema).optional(),
+  zona: z.lazy(() => SortOrderSchema).optional(),
+  calle: z.lazy(() => SortOrderSchema).optional(),
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  tipo: z.lazy(() => SortOrderSchema).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  piso: z.lazy(() => SortOrderSchema).optional(),
+  dormitorios: z.lazy(() => SortOrderSchema).optional(),
+  categoria: z.lazy(() => SortOrderSchema).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const PropiedadMinOrderByAggregateInputSchema: z.ZodType<Prisma.PropiedadMinOrderByAggregateInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  idAirTable: z.lazy(() => SortOrderSchema).optional(),
+  direccion: z.lazy(() => SortOrderSchema).optional(),
+  fechaDeCarga: z.lazy(() => SortOrderSchema).optional(),
+  barrio: z.lazy(() => SortOrderSchema).optional(),
+  ciudad: z.lazy(() => SortOrderSchema).optional(),
+  cpc: z.lazy(() => SortOrderSchema).optional(),
+  zona: z.lazy(() => SortOrderSchema).optional(),
+  calle: z.lazy(() => SortOrderSchema).optional(),
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  tipo: z.lazy(() => SortOrderSchema).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  piso: z.lazy(() => SortOrderSchema).optional(),
+  dormitorios: z.lazy(() => SortOrderSchema).optional(),
+  categoria: z.lazy(() => SortOrderSchema).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const PropiedadSumOrderByAggregateInputSchema: z.ZodType<Prisma.PropiedadSumOrderByAggregateInput> = z.object({
+  altura: z.lazy(() => SortOrderSchema).optional(),
+  superficie: z.lazy(() => SortOrderSchema).optional(),
+  latitud: z.lazy(() => SortOrderSchema).optional(),
+  longitud: z.lazy(() => SortOrderSchema).optional(),
+  precioUS: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const IntWithAggregatesFilterSchema: z.ZodType<Prisma.IntWithAggregatesFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedIntFilterSchema).optional(),
+  _max: z.lazy(() => NestedIntFilterSchema).optional()
+}).strict();
+
+export const FloatWithAggregatesFilterSchema: z.ZodType<Prisma.FloatWithAggregatesFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedFloatWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _min: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _max: z.lazy(() => NestedFloatFilterSchema).optional()
+}).strict();
+
 export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> = z.object({
   set: z.string().optional()
 }).strict();
@@ -416,6 +871,22 @@ export const DateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.DateTime
 
 export const NullableIntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableIntFieldUpdateOperationsInput> = z.object({
   set: z.number().optional().nullable(),
+  increment: z.number().optional(),
+  decrement: z.number().optional(),
+  multiply: z.number().optional(),
+  divide: z.number().optional()
+}).strict();
+
+export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> = z.object({
+  set: z.number().optional(),
+  increment: z.number().optional(),
+  decrement: z.number().optional(),
+  multiply: z.number().optional(),
+  divide: z.number().optional()
+}).strict();
+
+export const FloatFieldUpdateOperationsInputSchema: z.ZodType<Prisma.FloatFieldUpdateOperationsInput> = z.object({
+  set: z.number().optional(),
   increment: z.number().optional(),
   decrement: z.number().optional(),
   multiply: z.number().optional(),
@@ -575,6 +1046,49 @@ export const NestedFloatNullableFilterSchema: z.ZodType<Prisma.NestedFloatNullab
   not: z.union([ z.number(),z.lazy(() => NestedFloatNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
+export const NestedFloatFilterSchema: z.ZodType<Prisma.NestedFloatFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedFloatFilterSchema) ]).optional(),
+}).strict();
+
+export const NestedIntWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedIntWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedIntFilterSchema).optional(),
+  _max: z.lazy(() => NestedIntFilterSchema).optional()
+}).strict();
+
+export const NestedFloatWithAggregatesFilterSchema: z.ZodType<Prisma.NestedFloatWithAggregatesFilter> = z.object({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([ z.number(),z.lazy(() => NestedFloatWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _min: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _max: z.lazy(() => NestedFloatFilterSchema).optional()
+}).strict();
+
 /////////////////////////////////////////
 // ARGS
 /////////////////////////////////////////
@@ -636,6 +1150,63 @@ export const UserFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.UserFindUniqueOrT
   where: UserWhereUniqueInputSchema,
 }).strict() ;
 
+export const PropiedadFindFirstArgsSchema: z.ZodType<Prisma.PropiedadFindFirstArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereInputSchema.optional(),
+  orderBy: z.union([ PropiedadOrderByWithRelationInputSchema.array(),PropiedadOrderByWithRelationInputSchema ]).optional(),
+  cursor: PropiedadWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ PropiedadScalarFieldEnumSchema,PropiedadScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const PropiedadFindFirstOrThrowArgsSchema: z.ZodType<Prisma.PropiedadFindFirstOrThrowArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereInputSchema.optional(),
+  orderBy: z.union([ PropiedadOrderByWithRelationInputSchema.array(),PropiedadOrderByWithRelationInputSchema ]).optional(),
+  cursor: PropiedadWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ PropiedadScalarFieldEnumSchema,PropiedadScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const PropiedadFindManyArgsSchema: z.ZodType<Prisma.PropiedadFindManyArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereInputSchema.optional(),
+  orderBy: z.union([ PropiedadOrderByWithRelationInputSchema.array(),PropiedadOrderByWithRelationInputSchema ]).optional(),
+  cursor: PropiedadWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ PropiedadScalarFieldEnumSchema,PropiedadScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const PropiedadAggregateArgsSchema: z.ZodType<Prisma.PropiedadAggregateArgs> = z.object({
+  where: PropiedadWhereInputSchema.optional(),
+  orderBy: z.union([ PropiedadOrderByWithRelationInputSchema.array(),PropiedadOrderByWithRelationInputSchema ]).optional(),
+  cursor: PropiedadWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const PropiedadGroupByArgsSchema: z.ZodType<Prisma.PropiedadGroupByArgs> = z.object({
+  where: PropiedadWhereInputSchema.optional(),
+  orderBy: z.union([ PropiedadOrderByWithAggregationInputSchema.array(),PropiedadOrderByWithAggregationInputSchema ]).optional(),
+  by: PropiedadScalarFieldEnumSchema.array(),
+  having: PropiedadScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const PropiedadFindUniqueArgsSchema: z.ZodType<Prisma.PropiedadFindUniqueArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereUniqueInputSchema,
+}).strict() ;
+
+export const PropiedadFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.PropiedadFindUniqueOrThrowArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereUniqueInputSchema,
+}).strict() ;
+
 export const UserCreateArgsSchema: z.ZodType<Prisma.UserCreateArgs> = z.object({
   select: UserSelectSchema.optional(),
   data: z.union([ UserCreateInputSchema,UserUncheckedCreateInputSchema ]),
@@ -676,4 +1247,46 @@ export const UserUpdateManyArgsSchema: z.ZodType<Prisma.UserUpdateManyArgs> = z.
 
 export const UserDeleteManyArgsSchema: z.ZodType<Prisma.UserDeleteManyArgs> = z.object({
   where: UserWhereInputSchema.optional(),
+}).strict() ;
+
+export const PropiedadCreateArgsSchema: z.ZodType<Prisma.PropiedadCreateArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  data: z.union([ PropiedadCreateInputSchema,PropiedadUncheckedCreateInputSchema ]),
+}).strict() ;
+
+export const PropiedadUpsertArgsSchema: z.ZodType<Prisma.PropiedadUpsertArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereUniqueInputSchema,
+  create: z.union([ PropiedadCreateInputSchema,PropiedadUncheckedCreateInputSchema ]),
+  update: z.union([ PropiedadUpdateInputSchema,PropiedadUncheckedUpdateInputSchema ]),
+}).strict() ;
+
+export const PropiedadCreateManyArgsSchema: z.ZodType<Prisma.PropiedadCreateManyArgs> = z.object({
+  data: z.union([ PropiedadCreateManyInputSchema,PropiedadCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict() ;
+
+export const PropiedadCreateManyAndReturnArgsSchema: z.ZodType<Prisma.PropiedadCreateManyAndReturnArgs> = z.object({
+  data: z.union([ PropiedadCreateManyInputSchema,PropiedadCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict() ;
+
+export const PropiedadDeleteArgsSchema: z.ZodType<Prisma.PropiedadDeleteArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  where: PropiedadWhereUniqueInputSchema,
+}).strict() ;
+
+export const PropiedadUpdateArgsSchema: z.ZodType<Prisma.PropiedadUpdateArgs> = z.object({
+  select: PropiedadSelectSchema.optional(),
+  data: z.union([ PropiedadUpdateInputSchema,PropiedadUncheckedUpdateInputSchema ]),
+  where: PropiedadWhereUniqueInputSchema,
+}).strict() ;
+
+export const PropiedadUpdateManyArgsSchema: z.ZodType<Prisma.PropiedadUpdateManyArgs> = z.object({
+  data: z.union([ PropiedadUpdateManyMutationInputSchema,PropiedadUncheckedUpdateManyInputSchema ]),
+  where: PropiedadWhereInputSchema.optional(),
+}).strict() ;
+
+export const PropiedadDeleteManyArgsSchema: z.ZodType<Prisma.PropiedadDeleteManyArgs> = z.object({
+  where: PropiedadWhereInputSchema.optional(),
 }).strict() ;
